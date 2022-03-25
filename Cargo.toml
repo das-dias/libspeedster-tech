@@ -1,0 +1,25 @@
+[package]
+name = "libspeedster-tech"
+version = "0.1.0"
+edition = "2021"
+authors = ["mosfatino <das.dias6@gmail.com>"]
+description = "Speedster Technology File Parser tool"
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+# external dependencies
+chrono = "0.4" # date and time lib
+derive_builder = "0.11.1" #runtime implementation of builder pattern for arbitrary structures
+derive_more = "0.99.0" # additional traits for basic types
+num-traits = "0.2"
+num-derive = "0.3" # derive custom traits for my own types of data 
+serde = {version = "1.0.136", features = ["derive"]} # serde is a serialization and deserialization framework for rust data structures
+serde_derive = "1.0.136"
+serde_json = "1.0.79"
+tempfile = {version = "3.3.0", optional = true} # framework for creating, destroying and managing temporary files with rust
+# developer dependencies
+[dev-dependencies]
+tempfile = {version = "3.3.0"}
+
+[features]
+selftest = ["tempfile"]
