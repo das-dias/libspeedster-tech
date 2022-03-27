@@ -11,8 +11,6 @@
 */
 
 use std::collections::HashMap;
-mod via;
-mod layer;
 
 /**
 * *[name] UnitRule
