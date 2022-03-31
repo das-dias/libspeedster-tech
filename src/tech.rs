@@ -9,48 +9,22 @@
 * *             geometry file indexes.
 * ***********************************
 */
-
+// std library
 use std::collections::HashMap;
+use std::path::Path;
+use std::convert::TryFrom;
 
-/**
-* *[name] UnitRule
-* *[description] Unit or Header rule of the technology file (it is used for both)
-* ?NOTE: Unit rules will always hold a non-null val and a null unit, while Header rules can have both values
-* [variables]
-* @par name (&'static str) : name of the unit rule
-* @par unit (&'static str) : name of the unit of the physical quantity
-* @par val  (f32) : numeric value of the unit rule
-*/
-pub struct HeaderUnitRule<'hur>
-{
-    name:   &'static str,
-    unit:   &'static str,
-    val:    f32
-}
+// crates.io
+use derive_builder::Builder;
+use derive_more::{Add, AddAssign, Sub, SubAssign};
+use rust_decimal::prelude::*;
+use serde::{Deserialize, Serialize};
+use once_cell::sync::Lazy;
 
-/**
-* *[name] UnitRuleLibrary
-* *[description] Unit rule library of the technology file
-* [variables]
-* @par name (&'static str) : name of the unit rule
-* @par units (HashMap<&'static str, HeaderUnitRule>) : dictionary of {unit name : Unit rule} tuples
-*/
-pub struct UnitRuleLibrary<'ul>
-{
-    name:   &'static str,
-    units:  HashMap<&'static str, HeaderUnitRule>
-}
+// libspeedster utils
+use crate::utils::{enumstr, EnumStr};
 
-/**
-* *[name] HeaderRuleLibrary
-* *[description] Unit rule library of the technology file
-* [variables]
-* @par header_rule_lib (HashMap<&'static str, HeaderUnitRule>) : dictionary of {header rule name : Header rule} tuples
-*/
-pub struct HeaderRuleLibrary<'hr>
-{
-    header_rule_lib:    HashMap<&'static str, HeaderUnitRule> 
-}
+
 
 /**
 * *[name] Technology
@@ -80,24 +54,24 @@ pub struct HeaderRuleLibrary<'hr>
 */
 pub struct Technology<'t>
 {
-    name:                   &'static str,
-    description:            &'static str,
-    group:                  &'static str,
-    grain_name:             &'static str,
-    default_base_path:      &str,
-    explicit_base_path:     &str,
+    name:                   &'t str,
+    description:            &'t str,
+    group:                  &'t str,
+    grain_name:             &'t str,
+    default_base_path:      &'t str,
+    explicit_base_path:     &'t str,
     load_layout_options:    bool,
     save_layout_options:    bool,
-    l2ltab_explicit_path:   &str,
+    l2ltab_explicit_path:   &'t str,
     add_other_layers:       bool,
     read_only:              bool,
-    pr_cells_path:          &str,
-    pr_models_path:         &str,
-    header_rules:           HeaderRuleLibrary,
-    units:                  UnitRuleLibrary,
-    layer_rule_lib:         LayerRuleLibrary,
-    via_rule_lib:           ViaRuleLibrary,
-    layer_to_layout_table:  HashMap<&'static str, u8>,
+    pr_cells_path:          &'t str,
+    pr_models_path:         &'t str,
+    //header_rules:           HeaderRuleLibrary,
+    //units:                  UnitRuleLibrary,
+    //layer_rule_lib:         LayerRuleLibrary,
+    //via_rule_lib:           ViaRuleLibrary,
+    layer_to_layout_table:  HashMap<&'t str, u8>,
 }
 
 /**
@@ -109,5 +83,5 @@ pub struct Technology<'t>
 */
 pub struct TechnologyLibrary<'tl>
 {
-    techs:  HashMap<&'static str, Technology>
+    techs:  HashMap<&'tl str, Technology<'tl>>
 }
